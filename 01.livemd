@@ -1,41 +1,10 @@
 # Advent of Code 2022: Day 01
 
 ```elixir
+# Load the input, provided as a text file
 input =
   Path.join(__DIR__, "/01.input.txt")
   |> File.read!()
-```
-
-## Elf Snacks module
-
-```elixir
-defmodule ElfSnacks do
-  @inventories input
-               |> String.split(~r/\n\n/, trim: true)
-
-  defp parse_calories(x) do
-    x
-    |> String.split(~r/\n/, trim: true)
-    |> Enum.map(&String.to_integer/1)
-  end
-
-  @doc ~S"""
-  Converts list of raw text calories lists into a list of lists of integers
-
-  ## Examples
-
-      iex> ElfSnacks.agg_sum_calories(["1000\n2000","4000"])
-      [[1000,2000], [4000]]
-  """
-  def agg_sum_calories do
-    @inventories
-    |> Enum.map(fn inv ->
-      inv
-      |> parse_calories()
-      |> Enum.sum()
-    end)
-  end
-end
 ```
 
 ## Part One
@@ -81,6 +50,39 @@ In case the Elves get hungry and need extra snacks, they need to know which Elf 
 
 Find the Elf carrying the most Calories. **How many total Calories is that Elf carrying?**
 
+## Elf Snacks module
+
+```elixir
+defmodule ElfSnacks do
+  @doc ~S"""
+  At compile time, transform from raw text input into
+  lists of calories per snack, per Elf
+  """
+  @data input
+        |> String.split(~r/\n\n/, trim: true)
+        |> Enum.map(fn x ->
+          x
+          |> String.split(~r/\n/, trim: true)
+          |> Enum.map(&String.to_integer/1)
+        end)
+
+  @doc ~S"""
+  Flattens the data into a list of calorie totals by Elf
+
+  ## Examples
+
+      iex> ElfSnacks.agg_sum_calories([[1000,2000], [4000], [4000,5000,6000]])
+      [3000, 4000, 15_000]
+  """
+  def agg_sum_calories do
+    @data
+    |> Enum.map(&Enum.sum/1)
+  end
+end
+```
+
+## Part One: Answer
+
 ```elixir
 part_one_answer =
   ElfSnacks.agg_sum_calories()
@@ -96,6 +98,8 @@ To avoid this unacceptable situation, the Elves would instead like to know the t
 In the example above, the top three Elves are the fourth Elf (with 24000 Calories), then the third Elf (with 11000 Calories), then the fifth Elf (with 10000 Calories). The sum of the Calories carried by these three elves is 45000.
 
 Find the top three Elves carrying the most Calories. How many Calories are those Elves carrying in total?
+
+## Part Two: Answer
 
 ```elixir
 part_two_answer =
