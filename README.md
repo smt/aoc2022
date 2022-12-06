@@ -5,9 +5,9 @@ It's that time of year again, and [Advent of Code has begun for 2022](https://ad
 These exercises are intended to be run locally using [Livebook](https://livebook.dev/). [Elixir](https://elixir-lang.org/) is my language of choice this year.
 
 - **[01](./01.livemd)**
-- 02
-- 03
-- 04
+- **[02](./02.livemd)**
+- **[03](./03.livemd)**
+- **[04](./04.livemd)**
 - 05
 - 06
 - 07
