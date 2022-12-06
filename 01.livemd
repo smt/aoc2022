@@ -1,4 +1,4 @@
-# Advent of Code 2022: Day 01
+# Advent of Code 2022: Day 1
 
 ```elixir
 # Load the input, provided as a text file
@@ -7,7 +7,7 @@ input =
   |> File.read!()
 ```
 
-## Part One
+## Calorie Counting: Part One
 
 Santa's reindeer typically eat regular reindeer food, but they need a lot of [magical energy](https://adventofcode.com/2018/day/25) to deliver presents on Christmas. For that, their favorite snack is a special type of **star** fruit that only grows deep in the jungle. The Elves have brought you on their annual expedition to the grove where the fruit grows.
 
@@ -50,7 +50,7 @@ In case the Elves get hungry and need extra snacks, they need to know which Elf 
 
 Find the Elf carrying the most Calories. **How many total Calories is that Elf carrying?**
 
-## Elf Snacks module
+## ElfSnacks module
 
 ```elixir
 defmodule ElfSnacks do
@@ -89,7 +89,7 @@ part_one_answer =
   |> Enum.max()
 ```
 
-## Part Two
+## Calorie Counting: Part Two
 
 By the time you calculate the answer to the Elves' question, they've already realized that the Elf carrying the most Calories of food might eventually run out of snacks.
 
