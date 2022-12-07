@@ -86,9 +86,7 @@ defmodule CampCleanup do
   def parse_assignments(assignments) do
     assignments
     |> String.split(",")
-    |> Enum.map(fn x ->
-      x |> get_range()
-    end)
+    |> Enum.map(&get_range/1)
   end
 
   def get_data, do: @data
