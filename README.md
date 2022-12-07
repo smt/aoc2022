@@ -8,7 +8,7 @@ These exercises are intended to be run locally using [Livebook](https://livebook
 - **[Day 02](./02.livemd)**
 - **[Day 03](./03.livemd)**
 - **[Day 04](./04.livemd)**
-- Day 05
+- **[Day 05](./05.livemd)**
 - Day 06
 - Day 07
 - Day 08
