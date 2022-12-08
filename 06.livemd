@@ -1,12 +1,21 @@
 # Advent of Code 2022: Day 6
 
+```elixir
+# Load the input, provided as a text file
+input =
+  Path.join(__DIR__, "/06.input.txt")
+  |> File.read!()
+```
+
 ## Tuning Trouble: Part One
+
+([Source](https://adventofcode.com/2022/day/6))
 
 The preparations are finally complete; you and the Elves leave camp on foot and begin to make your way toward the **star** fruit grove.
 
 As you move through the dense undergrowth, one of the Elves gives you a handheld **device**. He says that it has many fancy features, but the most important one to set up right now is the **communication system**.
 
-However, because he's heard you have significant experience dealing with signal-based systems, he convinced the other Elves that it would be okay to give you their one malfunctioning device - surely you'll have no problem fixing it.
+However, because he's heard you have [significant](https://adventofcode.com/2016/day/6) [experience](https://adventofcode.com/2016/day/25) [dealing](https://adventofcode.com/2019/day/7) [with](https://adventofcode.com/2019/day/9) [signal-based](https://adventofcode.com/2019/day/16) [systems](https://adventofcode.com/2021/day/25), he convinced the other Elves that it would be okay to give you their one malfunctioning device - surely you'll have no problem fixing it.
 
 As if inspired by comedic timing, the device emits a few colorful sparks.
 
@@ -35,12 +44,89 @@ Here are a few more examples:
 
 **How many characters need to be processed before the first start-of-packet marker is detected?**
 
-<!-- livebook:{"break_markdown":true} -->
+## TuningTrouble module
 
+```elixir
+defmodule TuningTrouble do
+  def first_marker(data, skip, take) when skip + take > length(data), do: {skip + take, nil}
 
+  def first_marker(data, skip, take) do
+    idx = take - 1
+
+    packet =
+      data
+      |> Enum.slice(skip..(skip + idx))
+
+    is_marker =
+      packet
+      |> Enum.uniq()
+      |> length == take
+
+    if is_marker do
+      {skip + take, Enum.join(packet)}
+    else
+      first_marker(data, skip + 1, take)
+    end
+  end
+end
+```
+
+```elixir
+test_data = String.codepoints("mjqjpqmgbljsphdztnvjfqwrcgsmlb")
+start_of_packet_size = 4
+
+test_data
+|> TuningTrouble.first_marker(0, start_of_packet_size)
+
+# {7, "jpqm"}
+```
 
 ## Part One: Answer
 
 ```elixir
+data = String.codepoints(input)
+start_of_packet_size = 4
 
+data
+|> TuningTrouble.first_marker(0, start_of_packet_size)
+
+# {1647, "dsjt"}
+```
+
+## Tuning Trouble: Part Two
+
+Your device's communication system is correctly detecting packets, but still isn't working. It looks like it also needs to look for **messages**.
+
+A **start-of-message marker** is just like a start-of-packet marker, except it consists of **14 distinct characters** rather than 4.
+
+Here are the first positions of start-of-message markers for all of the above examples:
+
+* `mjqjpqmgbljsphdztnvjfqwrcgsmlb`: first marker after character 19
+* `bvwbjplbgvbhsrlpgdmjqwftvncz`: first marker after character 23
+* `nppdvjthqldpwncqszvftbrmjlhg`: first marker after character 23
+* `nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg`: first marker after character 29
+* `zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw`: first marker after character 26
+
+**How many characters need to be processed before the first start-of-message marker is detected?**
+
+```elixir
+test_data = String.codepoints("mjqjpqmgbljsphdztnvjfqwrcgsmlb")
+start_of_message_size = 14
+
+test_data
+|> TuningTrouble.first_marker(0, start_of_message_size)
+
+# {19, "qmgbljsphdztnv"}
+```
+
+## Part Two: Answer
+
+```elixir
+data = String.codepoints(input)
+start_of_message_size = 14
+
+data
+|> TuningTrouble.first_marker(0, start_of_message_size)
+
+# {2447, "lshwdrgjfbnptq"}
 ```
