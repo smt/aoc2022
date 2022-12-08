@@ -195,6 +195,18 @@ A map of our Stack processes. Hooray!
 
 ```elixir
 stacks = SupplyStacks.init_stacks()
+
+# %{
+#   1 => #PID<0.155.0>,
+#   2 => #PID<0.156.0>,
+#   3 => #PID<0.157.0>,
+#   4 => #PID<0.158.0>,
+#   5 => #PID<0.159.0>,
+#   6 => #PID<0.160.0>,
+#   7 => #PID<0.161.0>,
+#   8 => #PID<0.162.0>,
+#   9 => #PID<0.163.0>
+# }
 ```
 
 We can list the contents of each stack to verify that it still matches the input.
@@ -205,12 +217,32 @@ Map.keys(stacks)
   Map.get(stacks, x)
   |> Stack.list()
 end)
+
+# [
+#   ["V", "R", "H", "B", "G", "D", "W"],
+#   ["F", "R", "C", "G", "N", "J"],
+#   ["J", "N", "D", "H", "F", "S", "L"],
+#   ["V", "S", "D", "J"],
+#   ["V", "N", "W", "Q", "R", "D", "H", "S"],
+#   ["M", "C", "H", "G", "P"],
+#   ["C", "H", "Z", "L", "G", "B", "J", "F"],
+#   ["R", "J", "S"],
+#   ["M", "V", "N", "B", "R", "S", "G", "L"]
+# ]
 ```
 
 Next, we parse the procedure strings into `[move, from, to]` format.
 
 ```elixir
 procedure = SupplyStacks.init_procedure()
+
+# [
+#   [2, 2, 7],
+#   [8, 5, 6],
+#   [2, 4, 5],
+#   [...],
+#   ...
+# ]
 ```
 
 Now, we execute each step in the procedure, popping from and pushing to each stack for the appropriate number of crates.
@@ -226,6 +258,8 @@ Enum.each(procedure, fn [move, from, to] ->
     Stack.push(dest_pid, crate)
   end)
 end)
+
+# :ok
 ```
 
 After executing the procedure, we get the first crate of each stack.
@@ -238,6 +272,8 @@ After executing the procedure, we get the first crate of each stack.
   |> List.first()
 end)
 |> Enum.join()
+
+# "JRVNHHCSJ"
 ```
 
 ## Supply Stacks: Part Two
@@ -304,6 +340,18 @@ Before the rearrangement process finishes, update your simulation so that the El
 
 ```elixir
 stacks2 = SupplyStacks.init_stacks()
+
+# %{
+#   1 => #PID<0.1123.0>,
+#   2 => #PID<0.1124.0>,
+#   3 => #PID<0.1125.0>,
+#   4 => #PID<0.1126.0>,
+#   5 => #PID<0.1127.0>,
+#   6 => #PID<0.1128.0>,
+#   7 => #PID<0.1129.0>,
+#   8 => #PID<0.1130.0>,
+#   9 => #PID<0.1131.0>
+# }
 ```
 
 The difference here is that we collect the crates and reverse them, prior to pushing them to their new stack one at a time (I didn't feel like adding another interface on the Stack module).
@@ -318,6 +366,8 @@ Enum.each(procedure, fn [move, from, to] ->
   |> Enum.reverse()
   |> Enum.each(fn crate -> Stack.push(dest_pid, crate) end)
 end)
+
+# :ok
 ```
 
 ```elixir
@@ -328,4 +378,6 @@ end)
   |> List.first()
 end)
 |> Enum.join()
+
+# "GNFBSBJLH"
 ```
